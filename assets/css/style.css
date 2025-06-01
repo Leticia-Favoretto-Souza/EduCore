@@ -1,0 +1,190 @@
+
+/* Estilos gerais */
+body, html {
+    margin: 0;
+    padding: 0;
+    font-family: Arial, sans-serif;
+    background: linear-gradient(135deg, #044070, #58a7c9);
+    min-height: 100vh;
+}
+
+/* Navbar */
+.navbar-custom {
+    background-color: rgba(4, 64, 112, 0.95); 
+    box-shadow: 0 2px 15px rgba(0, 0, 0, 0.15);
+    padding: 20px 0; 
+    font-size: 1.05rem; 
+}
+
+.navbar-custom .navbar-brand {
+    color: #f8f9fa !important; 
+    font-weight: 600;
+    font-size: 1.25rem; 
+    padding: 0 20px; 
+}
+
+.navbar-custom .nav-link {
+    color: rgba(255, 255, 255, 0.9) !important;
+    margin: 0 12px; 
+    padding: 8px 15px !important; 
+    border-radius: 4px;
+    transition: all 0.3s ease;
+}
+
+.navbar-custom .nav-link:hover {
+    color: white !important;
+    background-color: rgba(255, 255, 255, 0.15); 
+}
+
+.navbar-custom .navbar-brand {
+    color: #f8f9fa !important;
+    font-weight: 600;
+    font-size: 1.25rem;
+    padding: 0 20px;
+    display: flex;
+    align-items: center;
+    gap: 10px;
+}
+
+.navbar-custom .navbar-brand img {
+    height: 50px;
+    width: auto;
+    max-height: 100%;
+    object-fit: contain;
+    filter: brightness(0) invert(1);
+}
+
+
+/* Ajuste para o ícone do toggler em mobile */
+.navbar-custom .navbar-toggler {
+    border-color: rgba(255,255,255,0.5);
+}
+
+.navbar-custom .navbar-toggler-icon {
+    background-image: url("data:image/svg+xml,%3csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 30 30'%3e%3cpath stroke='rgba%28255, 255, 255, 0.9%29' stroke-linecap='round' stroke-miterlimit='10' stroke-width='2' d='M4 7h22M4 15h22M4 23h22'/%3e%3c/svg%3e");
+}
+
+/* Container principal */
+.main-container {
+    padding: 80px 20px 40px;
+}
+
+/* Card do formulário */
+.form-container {
+    background-color: white;
+    border-radius: 10px;
+    box-shadow: 0 4px 20px rgba(0, 0, 0, 0.1);
+    max-width: 900px;
+    margin: 0 auto;
+    overflow: hidden;
+}
+
+/* Cabeçalho do formulário */
+.form-header {
+    background-color: #f8f9fa;
+    padding: 20px;
+    border-bottom: 1px solid #eee;
+    text-align: center;
+}
+
+.form-header h1 {
+    color: #014F8F;
+    font-size: 24px;
+    margin: 0;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+}
+
+.form-header p {
+    color: #6c757d;
+    margin: 10px 0 0;
+}
+
+/* Corpo do formulário */
+.form-body {
+    padding: 30px;
+}
+
+/* Seções do formulário */
+.form-section {
+    margin-bottom: 30px;
+}
+
+.section-title {
+    color: #014F8F;
+    font-size: 18px;
+    margin-bottom: 20px;
+    display: flex;
+    align-items: center;
+    padding-bottom: 10px;
+    border-bottom: 1px solid #eee;
+}
+
+.section-title i {
+    margin-right: 10px;
+}
+
+/* Campos do formulário */
+.form-label {
+    font-size: 14px;
+    color: #555;
+    font-weight: 500;
+    margin-bottom: 5px;
+}
+
+.form-control {
+    border-radius: 5px;
+    border: 1px solid #ced4da;
+    padding: 10px 15px;
+    margin-bottom: 15px;
+}
+
+.form-control:focus {
+    border-color: #044070;
+    box-shadow: 0 0 0 0.25rem rgba(4, 64, 112, 0.25);
+}
+
+/* Botão de submit */
+.btn-submit {
+    width: 100%;
+    max-width: 200px;
+    padding: 12px;
+    background-color: transparent;
+    border: 2px solid #044070;
+    border-radius: 25px;
+    color: #044070;
+    font-weight: bold;
+    font-size: 16px;
+    transition: all 0.3s;
+    margin: 60px auto; 
+    display: block; 
+    float: none; 
+}
+
+.btn-submit:hover {
+    background-color: #044070;
+    color: white;
+}
+
+.form-control[readonly] {
+    background-color: #f8f9fa;
+    cursor: not-allowed;
+    border-color: #ced4da;
+}
+
+
+/* Responsividade */
+@media (max-width: 768px) {
+    .main-container {
+        padding: 70px 15px 30px;
+    }
+    
+    .form-body {
+        padding: 20px;
+    }
+    
+    .btn-submit {
+        max-width: 100%;
+    }
+}
