@@ -136,7 +136,7 @@ class InscricaoModel {
     public function buscarTodas() {
     $sql = "SELECT id_inscricao, nome, curso_desejado, data_inscricao, status 
             FROM tb_inscricao 
-            ORDER BY data_inscricao DESC 
+            ORDER BY data_inscricao ASC 
             LIMIT 5";
     $stmt = $this->pdo->prepare($sql);
     $stmt->execute();
