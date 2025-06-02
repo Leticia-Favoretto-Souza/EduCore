@@ -132,15 +132,4 @@ class InscricaoModel {
         $stmt = $this->pdo->prepare($sql);
         return $stmt->execute(['id' => $id, 'status' => $status]);
     }
-
-    public function buscarTodas() {
-    $sql = "SELECT id_inscricao, nome, curso_desejado, data_inscricao, status 
-            FROM tb_inscricao 
-            ORDER BY data_inscricao DESC 
-            LIMIT 5";
-    $stmt = $this->pdo->prepare($sql);
-    $stmt->execute();
-    return $stmt->fetchAll(PDO::FETCH_ASSOC);
-}
-
 }

@@ -91,7 +91,7 @@
                                 <li><i class="bi bi-check-circle-fill text-success me-2"></i>Ciências da Natureza</li>
                                 <li><i class="bi bi-check-circle-fill text-success me-2"></i>Simulados periódicos</li>
                             </ul>
-                            <a href="inscricao.php" class="btn btn-primary-custom w-100">Quero me inscrever</a>
+                            <a href="formulario_inscricao.php" class="btn btn-primary-custom w-100">Quero me inscrever</a>
                         </div>
                     </div>
                 </div>
@@ -113,7 +113,7 @@
                                 <li><i class="bi bi-check-circle-fill text-success me-2"></i>Plantão de dúvidas</li>
                                 <li><i class="bi bi-check-circle-fill text-success me-2"></i>Simulados no formato ENEM</li>
                             </ul>
-                            <a href="inscricao.php" class="btn btn-primary-custom w-100">Quero me inscrever</a>
+                            <a href="formulario_inscricao.php" class="btn btn-primary-custom w-100">Quero me inscrever</a>
                         </div>
                     </div>
                 </div>
@@ -196,7 +196,7 @@
         <div class="container">
             <h2 class="cta-title">Pronto para transformar seu futuro?</h2>
             <p class="cta-text">Nossos cursos gratuitos estão abertos para todos que querem se preparar para vestibulares e concursos públicos. Não perca essa oportunidade!</p>
-            <a href="inscricao.php" class="btn btn-primary-custom btn-lg px-5">
+            <a href="formulario_inscricao.php" class="btn btn-primary-custom btn-lg px-5">
                 <i class="bi bi-pencil-square me-2"></i>Quero me inscrever
             </a>
         </div>

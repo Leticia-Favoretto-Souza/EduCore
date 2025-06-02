@@ -15,7 +15,7 @@ body {
 
 /* Sidebar */
 .sidebar {
-    background: linear-gradient(135deg, #044070, #58a7c9);
+    background: linear-gradient(135deg, var(--secondary-color), var(--primary-color));
     color: white;
     height: 100vh;
     position: fixed;
@@ -53,7 +53,8 @@ body {
     gap: 10px;
 }
 
-.nav-link:hover, .nav-link.active {
+.nav-link:hover, 
+.nav-link.active {
     color: white;
     background-color: rgba(255, 255, 255, 0.15);
 }
@@ -139,7 +140,7 @@ body {
     color: var(--secondary-color);
 }
 
-/* Recent Activity */
+/* Activity Items */
 .activity-item {
     display: flex;
     padding: 10px 0;
@@ -165,6 +166,124 @@ body {
 .activity-time {
     font-size: 0.8rem;
     color: #6c757d;
+}
+
+
+
+/* Aula Cards */
+.aula-card {
+    border-left: 4px solid var(--primary-color);
+    margin-bottom: 15px;
+    padding: 15px;
+    background-color: white;
+    border-radius: 6px;
+    box-shadow: 0 2px 5px rgba(0,0,0,0.05);
+}
+
+.aula-card.finalizada {
+    border-left-color: var(--success-color);
+    opacity: 0.9;
+}
+
+.aula-card.cancelada {
+    border-left-color: #dc3545;
+    opacity: 0.7;
+}
+
+.aula-card.pendente {
+    border-left-color: #ffc107;
+}
+
+.aula-horario {
+    font-weight: bold;
+    color: var(--secondary-color);
+}
+
+.aula-disciplina {
+    font-weight: 500;
+    margin: 5px 0;
+}
+
+.aula-turma {
+    color: #6c757d;
+    font-size: 0.9rem;
+}
+
+.aula-acoes {
+    margin-top: 10px;
+    display: flex;
+    gap: 10px;
+}
+
+/* Calendar */
+.calendar-header {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    margin-bottom: 15px;
+}
+
+.calendar-title {
+    font-weight: 600;
+    color: var(--secondary-color);
+}
+
+.calendar-nav button {
+    background: none;
+    border: none;
+    font-size: 1.2rem;
+    color: var(--primary-color);
+}
+
+.calendar-weekdays {
+    display: grid;
+    grid-template-columns: repeat(7, 1fr);
+    text-align: center;
+    font-weight: 600;
+    color: var(--secondary-color);
+    margin-bottom: 10px;
+}
+
+.calendar-days {
+    display: grid;
+    grid-template-columns: repeat(7, 1fr);
+    gap: 5px;
+}
+
+.calendar-day {
+    padding: 10px;
+    text-align: center;
+    border-radius: 5px;
+    cursor: pointer;
+}
+
+.calendar-day:hover {
+    background-color: rgba(88, 167, 201, 0.1);
+}
+
+.calendar-day.active {
+    background-color: var(--primary-color);
+    color: white;
+}
+
+.calendar-day.today {
+    border: 1px solid var(--primary-color);
+}
+
+.calendar-day.has-class {
+    position: relative;
+}
+
+.calendar-day.has-class::after {
+    content: '';
+    position: absolute;
+    bottom: 5px;
+    left: 50%;
+    transform: translateX(-50%);
+    width: 5px;
+    height: 5px;
+    border-radius: 50%;
+    background-color: var(--primary-color);
 }
 
 /* Responsive */

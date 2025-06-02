@@ -139,7 +139,24 @@
             <!-- Main Content Row -->
             <div class="row">
                 <div class="col-lg-8">
-                    <!-- Recent Students -->
+                    <?php
+                    require_once __DIR__ . '/../controllers/lista_inscricao.php';
+                    require_once __DIR__ . '/../database/conexao-banco.php';
+
+                    $controller = new InscricaoController($conexao);
+                    $inscricoes = $controller->listarInscricoes();
+
+                    function formatarStatus($status) {
+                        return match ($status) {
+                            'ativa'     => 'bg-success',
+                            'pendente'  => 'bg-warning text-dark',
+                            'cancelada' => 'bg-danger',
+                            default     => 'bg-secondary',
+                        };
+                    }
+                    ?>
+
+                    <!-- Conteúdo da tabela de inscrições -->
                     <div class="dashboard-card">
                         <h5 class="mb-4">Inscrições Recentes</h5>
                         <div class="table-responsive">
@@ -154,56 +171,29 @@
                                     </tr>
                                 </thead>
                                 <tbody>
-                                    <tr>
-                                        <td>Ana Carolina</td>
-                                        <td>Administração</td>
-                                        <td>02/06/2023</td>
-                                        <td><span class="badge bg-success">Ativa</span></td>
-                                        <td>
-                                            <button class="btn btn-sm btn-outline-primary">Detalhes</button>
-                                        </td>
-                                    </tr>
-                                    <tr>
-                                        <td>Carlos Eduardo</td>
-                                        <td>Engenharia</td>
-                                        <td>01/06/2023</td>
-                                        <td><span class="badge bg-warning text-dark">Pendente</span></td>
-                                        <td>
-                                            <button class="btn btn-sm btn-outline-primary">Detalhes</button>
-                                        </td>
-                                    </tr>
-                                    <tr>
-                                        <td>Mariana Silva</td>
-                                        <td>Medicina</td>
-                                        <td>31/05/2023</td>
-                                        <td><span class="badge bg-success">Ativa</span></td>
-                                        <td>
-                                            <button class="btn btn-sm btn-outline-primary">Detalhes</button>
-                                        </td>
-                                    </tr>
-                                    <tr>
-                                        <td>Pedro Henrique</td>
-                                        <td>Direito</td>
-                                        <td>30/05/2023</td>
-                                        <td><span class="badge bg-danger">Cancelada</span></td>
-                                        <td>
-                                            <button class="btn btn-sm btn-outline-primary">Detalhes</button>
-                                        </td>
-                                    </tr>
-                                    <tr>
-                                        <td>Juliana Costa</td>
-                                        <td>Psicologia</td>
-                                        <td>29/05/2023</td>
-                                        <td><span class="badge bg-success">Ativa</span></td>
-                                        <td>
-                                            <button class="btn btn-sm btn-outline-primary">Detalhes</button>
-                                        </td>
-                                    </tr>
+                                    <?php if (!empty($inscricoes)): ?>
+                                        <?php foreach ($inscricoes as $i): ?>
+                                            <tr>
+                                                <td><?= htmlspecialchars($i['nome']) ?></td>
+                                                <td>
+                                                    <?= $i['curso_desejado'] === 'preVestibulinho' ? 'Pré-Vestibulinho' : ($i['curso_desejado'] === 'preVestibular' ? 'Pré-Vestibular' : 'Desconhecido') ?>
+                                                </td>
+                                                <td><?= date('d/m/Y', strtotime($i['data_inscricao'])) ?></td>
+                                                <td><span class="badge <?= formatarStatus($i['status']) ?>">
+                                                    <?= ucfirst($i['status']) ?>
+                                                </span></td>
+                                                <td>
+                                                    <a href="detalhes-inscricao.php?id=<?= $i['id_inscricao'] ?>" class="btn btn-sm btn-outline-primary">Detalhes</a>
+                                                </td>
+                                            </tr>
+                                        <?php endforeach; ?>
+                                    <?php else: ?>
+                                        <tr>
+                                            <td colspan="5">Nenhuma inscrição encontrada.</td>
+                                        </tr>
+                                    <?php endif; ?>
                                 </tbody>
                             </table>
-                        </div>
-                        <div class="text-end mt-3">
-                            <a href="#" class="btn btn-primary">Ver todas</a>
                         </div>
                     </div>
                 </div>
