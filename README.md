@@ -1,6 +1,6 @@
 # EduCore
 
-# README - EduCore
+---
 
 ## 📝 Descrição do Projeto
 
