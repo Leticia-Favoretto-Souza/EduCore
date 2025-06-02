@@ -1,0 +1,365 @@
+SET @OLD_UNIQUE_CHECKS=@@UNIQUE_CHECKS, UNIQUE_CHECKS=0;
+SET @OLD_FOREIGN_KEY_CHECKS=@@FOREIGN_KEY_CHECKS, FOREIGN_KEY_CHECKS=0;
+SET @OLD_SQL_MODE=@@SQL_MODE, SQL_MODE='ONLY_FULL_GROUP_BY,STRICT_TRANS_TABLES,NO_ZERO_IN_DATE,NO_ZERO_DATE,ERROR_FOR_DIVISION_BY_ZERO,NO_ENGINE_SUBSTITUTION';
+
+-- -----------------------------------------------------
+-- Schema educore
+-- -----------------------------------------------------
+DROP SCHEMA IF EXISTS `educore`;
+
+CREATE SCHEMA IF NOT EXISTS `educore` DEFAULT CHARACTER SET utf8mb4 COLLATE utf8mb4_unicode_ci;
+USE `educore`;
+
+-- -----------------------------------------------------
+-- Table `educore`.`tb_inscricao`
+-- -----------------------------------------------------
+DROP TABLE IF EXISTS `educore`.`tb_inscricao`;
+
+CREATE TABLE IF NOT EXISTS `educore`.`tb_inscricao` (
+  `id_inscricao` INT NOT NULL AUTO_INCREMENT,
+  `nome` VARCHAR(100) NOT NULL,
+  `data_nascimento` DATE NOT NULL,  -- Alterado para DATE
+  `cpf` VARCHAR(14) NOT NULL,
+  `rg` VARCHAR(12) NOT NULL,
+  `email` VARCHAR(100) NOT NULL,
+  `telefone` VARCHAR(15) NOT NULL,
+  `cep` VARCHAR(9) NOT NULL,
+  `logradouro` VARCHAR(100) NOT NULL,
+  `numero` VARCHAR(10) NOT NULL,  -- Aumentado para 10 caracteres
+  `cidade` VARCHAR(100) NOT NULL,
+  `bairro` VARCHAR(45) NOT NULL,
+  `estado` VARCHAR(2) NOT NULL,
+  `complemento` VARCHAR(100) NULL,  -- Alterado para NULL e tamanho aumentado
+  `nivel_ensino` VARCHAR(30) NOT NULL,
+  `curso_desejado` VARCHAR(15) NOT NULL,
+  `nome_responsavel` VARCHAR(100) NULL,  -- Padronizado o nome
+  `cpf_responsavel` VARCHAR(14) NULL,
+  `rg_responsavel` VARCHAR(12) NULL,
+  `parentesco` VARCHAR(45) NULL,
+  `telefone_responsavel` VARCHAR(15) NULL,
+  `email_responsavel` VARCHAR(100) NULL,
+  `foto` VARCHAR(255) NULL,
+  `data_inscricao` DATETIME NOT NULL,  -- Corrigido nome e alterado para DATETIME
+  `status` ENUM('pendente', 'aprovada', 'espera', 'reprovada') NOT NULL DEFAULT 'pendente',
+  PRIMARY KEY (`id_inscricao`),
+  UNIQUE INDEX `uk_cpf` (`cpf` ASC),
+  UNIQUE INDEX `uk_email` (`email` ASC))
+ENGINE = InnoDB
+DEFAULT CHARACTER SET = utf8mb4
+COLLATE = utf8mb4_unicode_ci;
+
+-- -----------------------------------------------------
+-- Table `educore`.`tb_curso`
+-- -----------------------------------------------------
+DROP TABLE IF EXISTS `educore`.`tb_curso`;
+
+CREATE TABLE IF NOT EXISTS `educore`.`tb_curso` (
+  `id_curso` INT NOT NULL AUTO_INCREMENT,
+  `nome` VARCHAR(45) NOT NULL,
+  `ementa` LONGTEXT NOT NULL,
+  `carga_horaria` INT NULL,  -- Adicionado campo recomendado
+  `ativo` TINYINT(1) NOT NULL DEFAULT 1,  -- Adicionado campo para controle
+  PRIMARY KEY (`id_curso`),
+  UNIQUE INDEX `uk_nome` (`nome` ASC))
+ENGINE = InnoDB
+DEFAULT CHARACTER SET = utf8mb4
+COLLATE = utf8mb4_unicode_ci;
+
+-- -----------------------------------------------------
+-- Table `educore`.`tb_semestre`
+-- -----------------------------------------------------
+DROP TABLE IF EXISTS `educore`.`tb_semestre`;
+
+CREATE TABLE IF NOT EXISTS `educore`.`tb_semestre` (
+  `id_semestre` INT NOT NULL AUTO_INCREMENT,
+  `ano` INT NOT NULL,
+  `semestre` ENUM('1', '2') NOT NULL,  -- Alterado para ENUM
+  `data_inicio` DATE NOT NULL,  -- Adicionado campos de datas
+  `data_fim` DATE NOT NULL,
+  `ativo` TINYINT(1) NOT NULL DEFAULT 1,
+  PRIMARY KEY (`id_semestre`),
+  UNIQUE INDEX `uk_ano_semestre` (`ano` ASC, `semestre` ASC))
+ENGINE = InnoDB
+DEFAULT CHARACTER SET = utf8mb4
+COLLATE = utf8mb4_unicode_ci;
+
+-- -----------------------------------------------------
+-- Table `educore`.`tb_turma`
+-- -----------------------------------------------------
+DROP TABLE IF EXISTS `educore`.`tb_turma`;
+
+CREATE TABLE IF NOT EXISTS `educore`.`tb_turma` (
+  `id_turma` INT NOT NULL AUTO_INCREMENT,  -- Alterado para AUTO_INCREMENT
+  `id_curso` INT NOT NULL,
+  `id_semestre` INT NOT NULL,
+  `codigo_turma` VARCHAR(20) NOT NULL,  -- Adicionado campo para código legível
+  `numero_vagas` INT NOT NULL,
+  `vagas_disponiveis` INT NOT NULL,  -- Adicionado campo calculável
+  `data_inicio` DATE NOT NULL,
+  `data_fim` DATE NOT NULL,
+  `horario_aula` VARCHAR(100) NULL,  -- Adicionado campo para horário
+  `local_aula` VARCHAR(100) NULL,  -- Adicionado campo para local
+  `ativo` TINYINT(1) NOT NULL DEFAULT 1,
+  PRIMARY KEY (`id_turma`),
+  INDEX `fk_tb_turma_tb_curso_idx` (`id_curso` ASC),
+  INDEX `fk_tb_turma_tb_semestre_idx` (`id_semestre` ASC),
+  UNIQUE INDEX `uk_codigo_turma` (`codigo_turma` ASC),
+  CONSTRAINT `fk_tb_turma_tb_curso`
+    FOREIGN KEY (`id_curso`)
+    REFERENCES `educore`.`tb_curso` (`id_curso`)
+    ON DELETE RESTRICT
+    ON UPDATE CASCADE,
+  CONSTRAINT `fk_tb_turma_tb_semestre`
+    FOREIGN KEY (`id_semestre`)
+    REFERENCES `educore`.`tb_semestre` (`id_semestre`)
+    ON DELETE RESTRICT
+    ON UPDATE CASCADE)
+ENGINE = InnoDB
+DEFAULT CHARACTER SET = utf8mb4
+COLLATE = utf8mb4_unicode_ci;
+
+-- -----------------------------------------------------
+-- Table `educore`.`tb_professor`
+-- -----------------------------------------------------
+DROP TABLE IF EXISTS `educore`.`tb_professor`;
+
+CREATE TABLE IF NOT EXISTS `educore`.`tb_professor` (
+  `id_professor` INT NOT NULL AUTO_INCREMENT,
+  `nome` VARCHAR(100) NOT NULL,
+  `cpf` VARCHAR(14) NOT NULL,
+  `rg` VARCHAR(12) NULL,
+  `email` VARCHAR(100) NOT NULL,
+  `telefone` VARCHAR(15) NOT NULL,
+  `especializacao` VARCHAR(100) NULL,  -- Aumentado tamanho
+  `formacao` VARCHAR(100) NULL,  -- Adicionado campo
+  `data_contratacao` DATE NULL,  -- Adicionado campo
+  `status` ENUM('ativo', 'inativo', 'afastado') NOT NULL DEFAULT 'ativo',  -- Adicionado opção
+  PRIMARY KEY (`id_professor`),
+  UNIQUE INDEX `uk_cpf` (`cpf` ASC),
+  UNIQUE INDEX `uk_email` (`email` ASC))
+ENGINE = InnoDB
+DEFAULT CHARACTER SET = utf8mb4
+COLLATE = utf8mb4_unicode_ci;
+
+-- -----------------------------------------------------
+-- Table `educore`.`tb_matricula`
+-- -----------------------------------------------------
+DROP TABLE IF EXISTS `educore`.`tb_matricula`;
+
+CREATE TABLE IF NOT EXISTS `educore`.`tb_matricula` (
+  `id_matricula` INT NOT NULL AUTO_INCREMENT,
+  `id_turma` INT NOT NULL,
+  `id_inscricao` INT NOT NULL,
+  `numero_matricula` VARCHAR(20) NOT NULL,  -- Alterado para VARCHAR
+  `data_matricula` DATETIME NOT NULL,  -- Alterado para DATETIME
+  `data_cancelamento` DATETIME NULL,  -- Adicionado campo
+  `motivo_cancelamento` VARCHAR(255) NULL,  -- Adicionado campo
+  `status` ENUM('ativa', 'cancelada', 'trancada') NOT NULL DEFAULT 'ativa',  -- Adicionado opção
+  PRIMARY KEY (`id_matricula`),
+  INDEX `fk_tb_matricula_tb_turma_idx` (`id_turma` ASC),
+  INDEX `fk_tb_matricula_tb_inscricao_idx` (`id_inscricao` ASC),
+  UNIQUE INDEX `uk_numero_matricula` (`numero_matricula` ASC),
+  CONSTRAINT `fk_tb_matricula_tb_turma`
+    FOREIGN KEY (`id_turma`)
+    REFERENCES `educore`.`tb_turma` (`id_turma`)
+    ON DELETE RESTRICT
+    ON UPDATE CASCADE,
+  CONSTRAINT `fk_tb_matricula_tb_inscricao`
+    FOREIGN KEY (`id_inscricao`)
+    REFERENCES `educore`.`tb_inscricao` (`id_inscricao`)
+    ON DELETE RESTRICT
+    ON UPDATE CASCADE)
+ENGINE = InnoDB
+DEFAULT CHARACTER SET = utf8mb4
+COLLATE = utf8mb4_unicode_ci;
+
+-- -----------------------------------------------------
+-- Table `educore`.`tb_plano_aula`
+-- -----------------------------------------------------
+DROP TABLE IF EXISTS `educore`.`tb_plano_aula`;
+
+CREATE TABLE IF NOT EXISTS `educore`.`tb_plano_aula` (
+  `id_plano_aula` INT NOT NULL AUTO_INCREMENT,
+  `id_professor` INT NOT NULL,
+  `id_turma` INT NOT NULL,  -- Adicionado relacionamento com turma
+  `titulo` VARCHAR(100) NOT NULL,  -- Aumentado tamanho
+  `objetivos` TEXT NOT NULL,  -- Alterado para TEXT
+  `conteudo` TEXT NOT NULL,  -- Adicionado campo
+  `metodologia` TEXT NULL,  -- Adicionado campo
+  `recursos` TEXT NULL,  -- Adicionado campo
+  `data_criacao` DATETIME NOT NULL,
+  `data_atualizacao` DATETIME NULL,
+  PRIMARY KEY (`id_plano_aula`),
+  INDEX `fk_tb_plano_aula_tb_professor_idx` (`id_professor` ASC),
+  INDEX `fk_tb_plano_aula_tb_turma_idx` (`id_turma` ASC),
+  CONSTRAINT `fk_tb_plano_aula_tb_professor`
+    FOREIGN KEY (`id_professor`)
+    REFERENCES `educore`.`tb_professor` (`id_professor`)
+    ON DELETE RESTRICT
+    ON UPDATE CASCADE,
+  CONSTRAINT `fk_tb_plano_aula_tb_turma`
+    FOREIGN KEY (`id_turma`)
+    REFERENCES `educore`.`tb_turma` (`id_turma`)
+    ON DELETE RESTRICT
+    ON UPDATE CASCADE)
+ENGINE = InnoDB
+DEFAULT CHARACTER SET = utf8mb4
+COLLATE = utf8mb4_unicode_ci;
+
+-- -----------------------------------------------------
+-- Table `educore`.`tb_aula`
+-- -----------------------------------------------------
+DROP TABLE IF EXISTS `educore`.`tb_aula`;
+
+CREATE TABLE IF NOT EXISTS `educore`.`tb_aula` (
+  `id_aula` INT NOT NULL AUTO_INCREMENT,  -- Alterado para AUTO_INCREMENT
+  `id_turma` INT NOT NULL,
+  `id_plano_aula` INT NULL,  -- Alterado para NULL (opcional)
+  `id_professor` INT NOT NULL,
+  `data_aula` DATE NOT NULL,
+  `hora_inicio` TIME NOT NULL,  -- Adicionado campo
+  `hora_fim` TIME NOT NULL,  -- Adicionado campo
+  `conteudo` TEXT NOT NULL,
+  `observacoes` TEXT NULL,  -- Adicionado campo
+  `status` ENUM('planejada', 'realizada', 'cancelada') NOT NULL DEFAULT 'planejada',  -- Adicionado campo
+  PRIMARY KEY (`id_aula`),
+  INDEX `fk_tb_aula_tb_turma_idx` (`id_turma` ASC),
+  INDEX `fk_tb_aula_tb_plano_aula_idx` (`id_plano_aula` ASC),
+  INDEX `fk_tb_aula_tb_professor_idx` (`id_professor` ASC),
+  CONSTRAINT `fk_tb_aula_tb_turma`
+    FOREIGN KEY (`id_turma`)
+    REFERENCES `educore`.`tb_turma` (`id_turma`)
+    ON DELETE RESTRICT
+    ON UPDATE CASCADE,
+  CONSTRAINT `fk_tb_aula_tb_plano_aula`
+    FOREIGN KEY (`id_plano_aula`)
+    REFERENCES `educore`.`tb_plano_aula` (`id_plano_aula`)
+    ON DELETE SET NULL
+    ON UPDATE CASCADE,
+  CONSTRAINT `fk_tb_aula_tb_professor`
+    FOREIGN KEY (`id_professor`)
+    REFERENCES `educore`.`tb_professor` (`id_professor`)
+    ON DELETE RESTRICT
+    ON UPDATE CASCADE)
+ENGINE = InnoDB
+DEFAULT CHARACTER SET = utf8mb4
+COLLATE = utf8mb4_unicode_ci;
+
+-- -----------------------------------------------------
+-- Table `educore`.`tb_frequencia`
+-- -----------------------------------------------------
+DROP TABLE IF EXISTS `educore`.`tb_frequencia`;
+
+CREATE TABLE IF NOT EXISTS `educore`.`tb_frequencia` (
+  `id_frequencia` INT NOT NULL AUTO_INCREMENT,
+  `id_aula` INT NOT NULL,
+  `id_matricula` INT NOT NULL,
+  `presente` ENUM('presente', 'ausente', 'justificado') NOT NULL DEFAULT 'presente',  -- Adicionado opção
+  `observacao` VARCHAR(255) NULL,  -- Adicionado campo
+  `data_registro` DATETIME NOT NULL,
+  `registrado_por` INT NULL,  -- Adicionado campo para auditoria
+  PRIMARY KEY (`id_frequencia`),
+  INDEX `fk_tb_frequencia_tb_aula_idx` (`id_aula` ASC),
+  INDEX `fk_tb_frequencia_tb_matricula_idx` (`id_matricula` ASC),
+  UNIQUE INDEX `uk_aula_matricula` (`id_aula` ASC, `id_matricula` ASC),
+  CONSTRAINT `fk_tb_frequencia_tb_aula`
+    FOREIGN KEY (`id_aula`)
+    REFERENCES `educore`.`tb_aula` (`id_aula`)
+    ON DELETE CASCADE
+    ON UPDATE CASCADE,
+  CONSTRAINT `fk_tb_frequencia_tb_matricula`
+    FOREIGN KEY (`id_matricula`)
+    REFERENCES `educore`.`tb_matricula` (`id_matricula`)
+    ON DELETE CASCADE
+    ON UPDATE CASCADE)
+ENGINE = InnoDB
+DEFAULT CHARACTER SET = utf8mb4
+COLLATE = utf8mb4_unicode_ci;
+
+-- -----------------------------------------------------
+-- Table `educore`.`tb_avaliacao`
+-- -----------------------------------------------------
+DROP TABLE IF EXISTS `educore`.`tb_avaliacao`;
+
+CREATE TABLE IF NOT EXISTS `educore`.`tb_avaliacao` (
+  `id_avaliacao` INT NOT NULL AUTO_INCREMENT,
+  `id_turma` INT NOT NULL,  -- Padronizado nome do campo
+  `titulo` VARCHAR(100) NOT NULL,  -- Aumentado tamanho
+  `descricao` TEXT NOT NULL,  -- Alterado para TEXT
+  `tipo` ENUM('prova', 'trabalho', 'seminario', 'outro') NOT NULL,  -- Adicionado campo
+  `data_avaliacao` DATETIME NOT NULL,  -- Alterado para DATETIME
+  `data_entrega` DATETIME NULL,
+  `nota_maxima` DECIMAL(5,2) NOT NULL,
+  `peso` DECIMAL(5,2) NOT NULL DEFAULT 1.00,  -- Adicionado campo
+  PRIMARY KEY (`id_avaliacao`),
+  INDEX `fk_tb_avaliacao_tb_turma_idx` (`id_turma` ASC),
+  CONSTRAINT `fk_tb_avaliacao_tb_turma`
+    FOREIGN KEY (`id_turma`)
+    REFERENCES `educore`.`tb_turma` (`id_turma`)
+    ON DELETE CASCADE
+    ON UPDATE CASCADE)
+ENGINE = InnoDB
+DEFAULT CHARACTER SET = utf8mb4
+COLLATE = utf8mb4_unicode_ci;
+
+-- -----------------------------------------------------
+-- Table `educore`.`tb_nota`
+-- -----------------------------------------------------
+DROP TABLE IF EXISTS `educore`.`tb_nota`;
+
+CREATE TABLE IF NOT EXISTS `educore`.`tb_nota` (
+  `id_nota` INT NOT NULL AUTO_INCREMENT,
+  `id_matricula` INT NOT NULL,  -- Padronizado nome do campo
+  `id_avaliacao` INT NOT NULL,  -- Padronizado nome do campo
+  `nota` DECIMAL(5,2) NOT NULL,
+  `observacao` TEXT NULL,  -- Alterado para TEXT
+  `data_lancamento` DATETIME NOT NULL,  -- Adicionado campo
+  `lancado_por` INT NULL,  -- Adicionado campo para auditoria
+  PRIMARY KEY (`id_nota`),
+  INDEX `fk_tb_nota_tb_matricula_idx` (`id_matricula` ASC),
+  INDEX `fk_tb_nota_tb_avaliacao_idx` (`id_avaliacao` ASC),
+  UNIQUE INDEX `uk_matricula_avaliacao` (`id_matricula` ASC, `id_avaliacao` ASC),
+  CONSTRAINT `fk_tb_nota_tb_matricula`
+    FOREIGN KEY (`id_matricula`)
+    REFERENCES `educore`.`tb_matricula` (`id_matricula`)
+    ON DELETE CASCADE
+    ON UPDATE CASCADE,
+  CONSTRAINT `fk_tb_nota_tb_avaliacao`
+    FOREIGN KEY (`id_avaliacao`)
+    REFERENCES `educore`.`tb_avaliacao` (`id_avaliacao`)
+    ON DELETE CASCADE
+    ON UPDATE CASCADE)
+ENGINE = InnoDB
+DEFAULT CHARACTER SET = utf8mb4
+COLLATE = utf8mb4_unicode_ci;
+
+-- -----------------------------------------------------
+-- Table `educore`.`tb_usuario` (Adicionada nova tabela)
+-- -----------------------------------------------------
+DROP TABLE IF EXISTS `educore`.`tb_usuario`;
+
+CREATE TABLE IF NOT EXISTS `educore`.`tb_usuario` (
+  `id_usuario` INT NOT NULL AUTO_INCREMENT,
+  `email` VARCHAR(100) NOT NULL,
+  `senha` VARCHAR(255) NOT NULL,
+  `tipo` ENUM('admin', 'professor', 'secretaria') NOT NULL,
+  `id_professor` INT NULL,
+  `ultimo_login` DATETIME NULL,
+  `ativo` TINYINT(1) NOT NULL DEFAULT 1,
+  `data_criacao` DATETIME NOT NULL,
+  `data_atualizacao` DATETIME NULL,
+  PRIMARY KEY (`id_usuario`),
+  UNIQUE INDEX `uk_email` (`email` ASC),
+  INDEX `fk_tb_usuario_tb_professor_idx` (`id_professor` ASC),
+  CONSTRAINT `fk_tb_usuario_tb_professor`
+    FOREIGN KEY (`id_professor`)
+    REFERENCES `educore`.`tb_professor` (`id_professor`)
+    ON DELETE SET NULL
+    ON UPDATE CASCADE)
+ENGINE = InnoDB
+DEFAULT CHARACTER SET = utf8mb4
+COLLATE = utf8mb4_unicode_ci;
+
+SET SQL_MODE=@OLD_SQL_MODE;
+SET FOREIGN_KEY_CHECKS=@OLD_FOREIGN_KEY_CHECKS;
+SET UNIQUE_CHECKS=@OLD_UNIQUE_CHECKS;

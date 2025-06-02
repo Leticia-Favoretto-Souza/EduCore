@@ -12,7 +12,7 @@
 body, html {
     margin: 0;
     padding: 0;
-    font-family: Arial, sans-serif;
+    font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
     background: linear-gradient(135deg, #044070, #58a7c9);
     min-height: 100vh;
 }
@@ -152,6 +152,56 @@ body, html {
 .form-control:focus {
     border-color: #044070;
     box-shadow: 0 0 0 0.25rem rgba(4, 64, 112, 0.25);
+}
+
+/* Estilo para o campo de arquivo personalizado */
+.file-input-container {
+    margin-bottom: 1rem;
+}
+
+.custom-file-input {
+    position: relative;
+    display: flex;
+    flex-direction: column;
+}
+
+.custom-file-input input[type="file"] {
+    position: absolute;
+    opacity: 0;
+    width: 100%;
+    height: 100%;
+    top: 0;
+    left: 0;
+    cursor: pointer;
+}
+
+.file-input-label {
+    display: flex;
+    align-items: center;
+    gap: 8px;
+    padding: 0.75rem;
+    background-color: #f8f9fa;
+    border: 1px solid #ced4da;
+    border-radius: 0.375rem;
+    color: #495057;
+    transition: all 0.2s;
+}
+
+.file-input-label:hover {
+    background-color: #e9ecef;
+    border-color: #adb5bd;
+}
+
+.file-name {
+    margin-top: 0.5rem;
+    font-size: 0.875rem;
+    color: #6c757d;
+}
+
+/* Mantendo o estilo quando o campo tem foco */
+.custom-file-input input[type="file"]:focus + .file-input-label {
+    border-color: #86b7fe;
+    box-shadow: 0 0 0 0.25rem rgba(13, 110, 253, 0.25);
 }
 
 /* Botão de submit */
