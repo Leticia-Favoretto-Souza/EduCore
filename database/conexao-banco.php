@@ -3,7 +3,7 @@
 $servidor = "localhost";
 $usuario = "root";
 $senha = "";
-$nomeBanco = "portal_reposicoes_aulas_fatec";
+$nomeBanco = "educore";
 
 try {
     $conexao = new PDO(

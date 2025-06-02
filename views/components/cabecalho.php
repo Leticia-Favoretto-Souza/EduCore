@@ -20,7 +20,7 @@
                         <a class="nav-link active" href="#"><i class="bi bi-pencil-square me-1"></i> Inscrição</a>
                     </li>
                     <li class="nav-item">
-                        <a class="nav-link" href="#"><i class="bi bi-envelope me-1"></i> Contato</a>
+                        <a class="nav-link" href="#"><i class="bi bi-envelope me-1"></i> Área do aluno</a>
                     </li>
                 </ul>
             </div>
