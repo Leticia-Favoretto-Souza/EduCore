@@ -1,0 +1,59 @@
+INSERT INTO `educore`.`tb_curso` (`nome`, `ementa`, `carga_horaria`, `ativo`)
+VALUES
+(
+  'Pré-Vestibular',
+  'Curso preparatório semestral com foco em revisão de conteúdos do ensino médio, resolução de exercícios, simulados e técnicas de estudo para vestibulares.',
+  360,
+  TRUE
+),
+(
+  'Pré-Vestibulinho',
+  'Curso semestral voltado para alunos do ensino fundamental, com revisão dos principais conteúdos exigidos em vestibulinhos e foco em interpretação de texto, raciocínio lógico e matemática básica.',
+  300,
+  TRUE
+);
+
+INSERT INTO `educore`.`tb_semestre` (`ano`, `semestre`, `data_inicio`, `data_fim`, `ativo`)
+VALUES
+(
+  2025,
+  '1',
+  '2025-02-01',
+  '2025-07-31',
+  TRUE
+),
+(
+  2025,
+  '2',
+  '2025-08-01',
+  '2025-12-31',
+  TRUE
+);
+
+INSERT INTO `educore`.`tb_turma`
+  (`id_curso`, `id_semestre`, `codigo_turma`, `numero_vagas`, `vagas_disponiveis`, `data_inicio`, `data_fim`, `horario_aula`, `local_aula`, `ativo`)
+VALUES
+  (
+    1,  -- Pré-Vestibular
+    1,  -- 1º semestre 2025
+    'PV-2025-1A',
+    50,
+    50,
+    '2025-02-01',
+    '2025-07-31',
+    'Segunda a Sexta, 18h às 22h',
+    'Sala 101 - Prédio A',
+    TRUE
+  ),
+  (
+    2,  -- Pré-Vestibulinho
+    1,  -- 1º semestre 2025
+    'PVB-2025-1A',
+    40,
+    40,
+    '2025-02-01',
+    '2025-07-31',
+    'Segunda a Sexta, 14h às 17h',
+    'Sala 202 - Prédio B',
+    TRUE
+  );
