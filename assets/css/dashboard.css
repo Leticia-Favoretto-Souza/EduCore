@@ -301,3 +301,129 @@ body {
         padding: 15px;
     }
 }
+/* Estilos para a página de detalhes da inscrição */
+.card {
+    border: none;
+    border-radius: 8px;
+    box-shadow: 0 2px 10px rgba(0, 0, 0, 0.05);
+    transition: transform 0.3s, box-shadow 0.3s;
+    margin-bottom: 20px;
+}
+
+.card:hover {
+    transform: translateY(-2px);
+    box-shadow: 0 5px 15px rgba(0, 0, 0, 0.1);
+}
+
+.card-body {
+    padding: 1.5rem;
+}
+
+.card-body h5 {
+    color: var(--secondary-color);
+    margin-top: 1.5rem;
+    margin-bottom: 1rem;
+    font-size: 1.25rem;
+    font-weight: 600;
+}
+
+.card-body p {
+    margin-bottom: 0.75rem;
+    font-size: 0.95rem;
+    line-height: 1.5;
+    color: #495057;
+    border-bottom: 1px solid #f0f0f0;
+    padding-bottom: 0.75rem;
+}
+
+.card-body p:last-child {
+    border-bottom: none;
+    margin-bottom: 0;
+    padding-bottom: 0;
+}
+
+.card-body p strong {
+    color: var(--secondary-color);
+    font-weight: 600;
+    min-width: 180px;
+    display: inline-block;
+}
+
+.card-body hr {
+    margin: 1.5rem 0;
+    border-color: #eee;
+}
+
+/* Estilo para a foto do aluno */
+.card-body img {
+    float: right;
+    margin-left: 1.5rem;
+    margin-bottom: 1.5rem;
+    border: 1px solid #dee2e6;
+    border-radius: 8px;
+    max-height: 150px;
+    object-fit: cover;
+}
+
+/* Limpar o float */
+.card-body::after {
+    content: "";
+    display: table;
+    clear: both;
+}
+
+/* Formulário de alocação */
+form {
+    margin-top: 1.5rem;
+    padding: 1.5rem;
+    background-color: #fff;
+    border-radius: 8px;
+    box-shadow: 0 2px 10px rgba(0, 0, 0, 0.05);
+}
+
+.form-label {
+    color: var(--secondary-color);
+    font-weight: 500;
+}
+
+.form-select {
+    margin-bottom: 1rem;
+    border: 1px solid #dee2e6;
+    border-radius: 6px;
+    padding: 0.5rem 1rem;
+}
+
+.btn-primary {
+    background-color: var(--primary-color);
+    border-color: var(--primary-color);
+    margin-right: 0.5rem;
+    transition: all 0.3s;
+}
+
+.btn-primary:hover {
+    background-color: var(--secondary-color);
+    border-color: var(--secondary-color);
+}
+
+/* Responsividade */
+@media (max-width: 768px) {
+    .card-body p strong {
+        display: block;
+        margin-bottom: 0.25rem;
+    }
+    
+    .card-body img {
+        float: none;
+        display: block;
+        margin: 0 auto 1.5rem;
+        max-width: 100%;
+    }
+    
+    .card-body {
+        padding: 1rem;
+    }
+    
+    form {
+        padding: 1rem;
+    }
+}

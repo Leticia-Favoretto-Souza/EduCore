@@ -1,3 +1,6 @@
+<?php
+session_start();
+?>
 <!DOCTYPE html>
 <html lang="pt-BR">
 <head>
@@ -9,65 +12,9 @@
     <link rel="stylesheet" href="../assets/css/dashboard.css">
 </head>
 <body>
-    <!-- Sidebar -->
-    <div class="sidebar">
-        <div class="sidebar-header">
-            <img src="https://via.placeholder.com/40" alt="Logo">
-            <h5 class="mb-0">Acadêmico</h5>
-        </div>
-        <div class="sidebar-menu">
-            <ul class="nav flex-column">
-                <li class="nav-item">
-                    <a class="nav-link active" href="#">
-                        <i class="bi bi-speedometer2"></i>
-                        Dashboard
-                    </a>
-                </li>
-                <li class="nav-item">
-                    <a class="nav-link" href="#">
-                        <i class="bi bi-people"></i>
-                        Alunos
-                    </a>
-                </li>
-                <li class="nav-item">
-                    <a class="nav-link" href="#">
-                        <i class="bi bi-book"></i>
-                        Cursos
-                    </a>
-                </li>
-                <li class="nav-item">
-                    <a class="nav-link" href="#">
-                        <i class="bi bi-building"></i>
-                        Turmas
-                    </a>
-                </li>
-                <li class="nav-item">
-                    <a class="nav-link" href="#">
-                        <i class="bi bi-person-badge"></i>
-                        Professores
-                    </a>
-                </li>
-                <li class="nav-item">
-                    <a class="nav-link" href="#">
-                        <i class="bi bi-calendar-event"></i>
-                        Aulas
-                    </a>
-                </li>
-                <li class="nav-item">
-                    <a class="nav-link" href="#">
-                        <i class="bi bi-file-earmark-text"></i>
-                        Relatórios
-                    </a>
-                </li>
-                <li class="nav-item">
-                    <a class="nav-link" href="#">
-                        <i class="bi bi-gear"></i>
-                        Configurações
-                    </a>
-                </li>
-            </ul>
-        </div>
-    </div>
+
+        <?php require_once 'components/sidebar.php'; ?>
+    
 
     <!-- Main Content -->
     <div class="main-content">
@@ -87,6 +34,14 @@
         <!-- Dashboard Content -->
         <div class="container-fluid">
             <h4 class="mb-4">Dashboard</h4>
+
+            <?php if (!empty($_SESSION['flash_mensagem'])): ?>
+                <div class="alert alert-<?= $_SESSION['flash_tipo'] ?? 'info' ?> alert-dismissible fade show mt-3" role="alert">
+                    <?= htmlspecialchars($_SESSION['flash_mensagem']) ?>
+                    <button type="button" class="btn-close" data-bs-dismiss="alert" aria-label="Fechar"></button>
+                </div>
+                <?php unset($_SESSION['flash_mensagem'], $_SESSION['flash_tipo']); ?>
+            <?php endif; ?>
             
             <!-- Stats Cards -->
             <div class="row">
@@ -183,7 +138,9 @@
                                                     <?= ucfirst($i['status']) ?>
                                                 </span></td>
                                                 <td>
-                                                    <a href="detalhes-inscricao.php?id=<?= $i['id_inscricao'] ?>" class="btn btn-sm btn-outline-primary">Detalhes</a>
+                                                    <a href="detalhes_inscricao.php?id=<?= $i['id_inscricao'] ?>" class="btn btn-sm btn-primary">
+                                                         Detalhes
+                                                    </a>
                                                 </td>
                                             </tr>
                                         <?php endforeach; ?>
@@ -220,13 +177,14 @@
                         </div>
                     </div>
 
+<script>
+    // Toggle sidebar on mobile
+    document.getElementById('sidebarToggle').addEventListener('click', function() {
+        document.querySelector('.sidebar').classList.toggle('active');
+    });
+</script>
 
-    <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/js/bootstrap.bundle.min.js"></script>
-    <script>
-        // Toggle sidebar on mobile
-        document.getElementById('sidebarToggle').addEventListener('click', function() {
-            document.querySelector('.sidebar').classList.toggle('active');
-        });
-    </script>
+<script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/js/bootstrap.bundle.min.js"></script>
+
 </body>
 </html>
