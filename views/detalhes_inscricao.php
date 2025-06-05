@@ -19,6 +19,10 @@ if (!$inscricao) {
     exit;
 }
 
+$dataNascimento = new DateTime($inscricao['data_nascimento']);
+$hoje = new DateTime();
+$idade = $hoje->diff($dataNascimento)->y;
+
 $turmasDisponiveis = $turmaModel->listarTurmasAtivas();
 ?>
 
@@ -114,6 +118,7 @@ $turmasDisponiveis = $turmaModel->listarTurmasAtivas();
                             </div>
                         </div>
                         
+                        <?php if ($idade < 18): ?>
                         <!-- Responsável -->
                         <div class="card mb-4">
                             <div class="card-header bg-light">
@@ -134,6 +139,7 @@ $turmasDisponiveis = $turmaModel->listarTurmasAtivas();
                                 </div>
                             </div>
                         </div>
+                        <?php endif; ?>
                     </div>
                 </div>
                 
