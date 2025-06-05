@@ -93,7 +93,7 @@ $turmas = $controller->getTurmas();
                         <thead>
                             <tr>
                                 <th>Nome</th>
-                                <th>CPF</th>
+                                <th>Curso</th>
                                 <th>Turma</th>
                                 <th>Matrícula</th>
                                 <th>Status</th>
@@ -127,7 +127,7 @@ $turmas = $controller->getTurmas();
                                                    data-bs-toggle="tooltip">
                                                     <i class="bi bi-eye"></i>
                                                 </a>
-                                                <a href="editar_aluno.php?id=<?= $aluno['id_matricula'] ?>" 
+                                                <a href="editar_matricula.php?id=<?= $aluno['id_matricula'] ?>" 
                                                    class="btn btn-outline-secondary" 
                                                    title="Editar"
                                                    data-bs-toggle="tooltip">

@@ -114,12 +114,44 @@ class InscricaoModel {
     }
 
     public function atualizarStatus($idInscricao, $status) {
-    $sql = "UPDATE tb_inscricao SET status = :status WHERE id_inscricao = :id";
-    $stmt = $this->pdo->prepare($sql);
-    return $stmt->execute([
-        'status' => $status,
-        'id' => $idInscricao
-    ]);
-}
+        $sql = "UPDATE tb_inscricao SET status = :status WHERE id_inscricao = :id";
+        $stmt = $this->pdo->prepare($sql);
+        return $stmt->execute([
+            'status' => $status,
+            'id' => $idInscricao
+        ]);
+    }
+
+    public function atualizarInscricao($id, $dados) {
+        $sql = "UPDATE tb_inscricao SET
+                    nome = :nome,
+                    data_nascimento = :data_nascimento,
+                    cpf = :cpf,
+                    rg = :rg,
+                    email = :email,
+                    telefone = :telefone,
+                    curso_desejado = :curso_desejado,
+                    nivel_ensino = :nivel_ensino,
+                    cep = :cep,
+                    logradouro = :logradouro,
+                    numero = :numero,
+                    bairro = :bairro,
+                    cidade = :cidade,
+                    estado = :estado,
+                    complemento = :complemento,
+                    nome_responsavel = :nome_responsavel,
+                    cpf_responsavel = :cpf_responsavel,
+                    rg_responsavel = :rg_responsavel,
+                    parentesco = :parentesco,
+                    telefone_responsavel = :telefone_responsavel,
+                    email_responsavel = :email_responsavel
+                WHERE id_inscricao = :id";
+
+        $stmt = $this->pdo->prepare($sql);  // Aqui estava o erro
+        $dados['id'] = $id;
+        $stmt->execute($dados);
+    }
+
+
 
 }

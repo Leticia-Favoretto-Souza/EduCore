@@ -7,11 +7,11 @@ class TurmaModel {
         $this->pdo = $pdo;
     }
 
-public function listarTurmasAtivas() {
-    $sql = "SELECT id_turma, codigo_turma FROM tb_turma WHERE ativo = 1 AND vagas_disponiveis > 0";
-    $stmt = $this->pdo->query($sql);
-    return $stmt->fetchAll(PDO::FETCH_ASSOC);
-}
+    public function listarTurmasAtivas() {
+        $sql = "SELECT id_turma, codigo_turma FROM tb_turma WHERE ativo = 1 AND vagas_disponiveis > 0";
+        $stmt = $this->pdo->query($sql);
+        return $stmt->fetchAll(PDO::FETCH_ASSOC);
+    }
 
 
     /**
@@ -66,6 +66,18 @@ public function listarTurmasAtivas() {
         return $stmt->execute(['id' => $idTurma]);
     }
 
+    public function aumentarVaga($idTurma) {
+        $sql = "UPDATE tb_turma SET vagas_disponiveis = vagas_disponiveis + 1 
+                WHERE id_turma = :id AND vagas_disponiveis < numero_vagas";
+        $stmt = $this->pdo->prepare($sql);
+        return $stmt->execute(['id' => $idTurma]);
+    }
 
+    public function buscarTodas() {
+        $sql = "SELECT * FROM tb_turma";
+        $stmt = $this->pdo->prepare($sql);
+        $stmt->execute();
+        return $stmt->fetchAll(PDO::FETCH_ASSOC);
+    }
 
 }

@@ -37,8 +37,8 @@ VALUES
     1,  -- Pré-Vestibular
     1,  -- 1º semestre 2025
     'vestibular-2025-1A',
-    50,
-    50,
+    40,
+    40,
     '2025-02-01',
     '2025-07-31',
     'Segunda a Sexta, 18h às 22h',
