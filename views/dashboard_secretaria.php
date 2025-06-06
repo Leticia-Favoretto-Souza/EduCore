@@ -138,7 +138,7 @@ session_start();
                                                     <?= ucfirst($i['status']) ?>
                                                 </span></td>
                                                 <td>
-                                                    <a href="detalhes_inscricao.php?id=<?= $i['id_inscricao'] ?>" class="btn btn-sm btn-primary">
+                                                    <a href="inscricao_detalhes.php?id=<?= $i['id_inscricao'] ?>" class="btn btn-sm btn-primary">
                                                          Detalhes
                                                     </a>
                                                 </td>
@@ -160,17 +160,14 @@ session_start();
                         <h5 class="mb-4">Ações Rápidas</h5>
                         <div class="d-grid gap-2">
                             <button class="btn btn-outline-primary text-start">
-                                <i class="bi bi-person-plus me-2"></i> Cadastrar Aluno
-                            </button>
-                            <button class="btn btn-outline-primary text-start">
                                 <i class="bi bi-book me-2"></i> Cadastrar Curso
                             </button>
                             <button class="btn btn-outline-primary text-start">
                                 <i class="bi bi-building me-2"></i> Criar Turma
                             </button>
-                            <button class="btn btn-outline-primary text-start">
+                            <a href="Professor_cadastrar.php" class="btn btn-outline-primary text-start">
                                 <i class="bi bi-person-badge me-2"></i> Cadastrar Professor
-                            </button>
+                            </a>
                             <button class="btn btn-outline-primary text-start">
                                 <i class="bi bi-calendar-event me-2"></i> Agendar Aula
                             </button>

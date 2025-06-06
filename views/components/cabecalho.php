@@ -17,7 +17,7 @@
                         <a class="nav-link" href="#"><i class="bi bi-info-circle me-1"></i> Sobre</a>
                     </li>
                     <li class="nav-item">
-                        <a class="nav-link active" href="formulario_inscricao.php"><i class="bi bi-pencil-square me-1"></i> Inscrição</a>
+                        <a class="nav-link active" href="inscricao_formulario.php"><i class="bi bi-pencil-square me-1"></i> Inscrição</a>
                     </li>
                     <li class="nav-item">
                         <a class="nav-link" href="#"><i class="bi bi-envelope me-1"></i> Área do aluno</a>

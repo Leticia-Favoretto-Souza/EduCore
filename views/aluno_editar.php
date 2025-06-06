@@ -24,7 +24,7 @@ if (!$inscricao) {
 ?>
 
 <h2>Editar Aluno</h2>
-<form method="POST" action="../controllers/atualizar_aluno.php">
+<form method="POST" action="../controllers/editar_aluno.php">
     <input type="hidden" name="inscricao[id]" value="<?= $inscricao['id_inscricao'] ?>">
     <input type="hidden" name="matricula[id]" value="<?= $matricula['id_matricula'] ?? '' ?>">
 

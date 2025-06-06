@@ -121,13 +121,13 @@ $turmas = $controller->getTurmas();
                                         </td>
                                         <td class="text-end">
                                             <div class="btn-group btn-group-sm">
-                                                <a href="detalhes_aluno.php?id=<?= $aluno['id_matricula'] ?>" 
+                                                <a href="aluno_detalhes.php?id=<?= $aluno['id_matricula'] ?>" 
                                                    class="btn btn-outline-primary" 
                                                    title="Detalhes"
                                                    data-bs-toggle="tooltip">
                                                     <i class="bi bi-eye"></i>
                                                 </a>
-                                                <a href="editar_matricula.php?id=<?= $aluno['id_matricula'] ?>" 
+                                                <a href="aluno_editar.php?id=<?= $aluno['id_matricula'] ?>" 
                                                    class="btn btn-outline-secondary" 
                                                    title="Editar"
                                                    data-bs-toggle="tooltip">

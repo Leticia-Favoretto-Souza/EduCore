@@ -157,7 +157,7 @@ if (!$inscricao) {
                             <h6 class="mb-0">Ações</h6>
                         </div>
                         <div class="card-body d-grid gap-2">
-                            <a href="editar_matricula.php?id=<?= $inscricao['id_inscricao'] ?>" class="btn btn-warning">
+                            <a href="aluno_editar.php?id=<?= $inscricao['id_inscricao'] ?>" class="btn btn-warning">
                                 <i class="bi bi-pencil-square"></i> Editar Informações
                             </a>
                             <a href="javascript:history.back()" class="btn btn-outline-secondary">
