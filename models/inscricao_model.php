@@ -113,6 +113,17 @@ class InscricaoModel {
         return $stmt->fetchAll(PDO::FETCH_ASSOC);
     }
 
+    public function buscarTodasEspera() {
+        $sql = "SELECT id_inscricao, nome, curso_desejado, data_inscricao, status 
+                FROM tb_inscricao 
+                WHERE status = 'espera' 
+                ORDER BY data_inscricao ASC 
+                LIMIT 5";
+        $stmt = $this->pdo->prepare($sql);
+        $stmt->execute();
+        return $stmt->fetchAll(PDO::FETCH_ASSOC);
+    }
+
     public function atualizarStatus($idInscricao, $status) {
         $sql = "UPDATE tb_inscricao SET status = :status WHERE id_inscricao = :id";
         $stmt = $this->pdo->prepare($sql);

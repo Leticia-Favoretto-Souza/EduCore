@@ -11,4 +11,8 @@ class InscricaoController {
     public function listarInscricoes() {
         return $this->model->buscarTodas();
     }
+
+    public function listarEspera() {
+        return $this->model->buscarTodasEspera();
+    }
 }

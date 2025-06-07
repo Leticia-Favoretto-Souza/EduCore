@@ -13,9 +13,8 @@ session_start();
 </head>
 <body>
 
-        <?php require_once 'components/sidebar.php'; ?>
+    <?php require_once 'components/sidebar.php'; ?>
     
-
     <!-- Main Content -->
     <div class="main-content">
         <!-- Top Bar -->
@@ -100,6 +99,7 @@ session_start();
 
                     $controller = new InscricaoController($conexao);
                     $inscricoes = $controller->listarInscricoes();
+                    $espera = $controller->listarEspera();
 
                     function formatarStatus($status) {
                         return match ($status) {
@@ -111,8 +111,7 @@ session_start();
                     }
                     ?>
 
-                    <!-- Conteúdo da tabela de inscrições -->
-                    <div class="dashboard-card">
+                    <div class="dashboard-card mb-4">
                         <h5 class="mb-4">Inscrições Recentes</h5>
                         <div class="table-responsive">
                             <table class="table table-hover">
@@ -153,7 +152,50 @@ session_start();
                             </table>
                         </div>
                     </div>
-                </div>
+
+                    <div class="dashboard-card" id="listaEsperaCard"> 
+                        <h5 class="mb-4">Lista de espera</h5>
+                        <div class="table-responsive">
+                            <table class="table table-hover">
+                                <thead>
+                                    <tr>
+                                        <th>Aluno</th>
+                                        <th>Curso</th>
+                                        <th>Data</th>
+                                        <th>Status</th>
+                                        <th>Ações</th>
+                                    </tr>
+                                </thead>
+                                <tbody id="listaEsperaBody">
+                                    <?php if (!empty($espera)): ?>
+                                        <?php foreach ($espera as $i): ?>
+                                            <tr>
+                                                <td><?= htmlspecialchars($i['nome']) ?></td>
+                                                <td>
+                                                    <?= $i['curso_desejado'] === 'preVestibulinho' ? 'Pré-Vestibulinho' : ($i['curso_desejado'] === 'preVestibular' ? 'Pré-Vestibular' : 'Desconhecido') ?>
+                                                </td>
+                                                <td><?= date('d/m/Y', strtotime($i['data_inscricao'])) ?></td>
+                                                <td><span class="badge <?= formatarStatus($i['status']) ?>">
+                                                    <?= ucfirst($i['status']) ?>
+                                                </span></td>
+                                                <td>
+                                                    <a href="inscricao_detalhes.php?id=<?= $i['id_inscricao'] ?>" class="btn btn-sm btn-primary">
+                                                            Detalhes
+                                                    </a>
+                                                </td>
+                                            </tr>
+                                        <?php endforeach; ?>
+                                    <?php else: ?>
+                                        <tr>
+                                            <td colspan="5">Lista de espera vazia.</td>
+                                        </tr>
+                                    <?php endif; ?>
+                                </tbody>
+                            </table>
+                        </div>
+                    </div>
+                </div> 
+
                 <div class="col-lg-4">
                     <!-- Quick Actions -->
                     <div class="dashboard-card mb-4">
@@ -173,15 +215,34 @@ session_start();
                             </button>
                         </div>
                     </div>
+                </div> 
+            </div> 
+        </div>
+    </div> 
 
-<script>
-    // Toggle sidebar on mobile
-    document.getElementById('sidebarToggle').addEventListener('click', function() {
-        document.querySelector('.sidebar').classList.toggle('active');
-    });
-</script>
+    <script>
+        // Toggle sidebar on mobile
+        document.getElementById('sidebarToggle').addEventListener('click', function() {
+            document.querySelector('.sidebar').classList.toggle('active');
+        });
 
-<script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/js/bootstrap.bundle.min.js"></script>
+        // Verifica se a lista de espera tem conteúdo
+        document.addEventListener('DOMContentLoaded', function () {
+            const listaEsperaBody = document.getElementById('listaEsperaBody');
+            const listaEsperaCard = document.getElementById('listaEsperaCard');
+
+            if (listaEsperaBody && listaEsperaCard) {
+                const temLinhas = listaEsperaBody.querySelectorAll('tr').length > 1 || 
+                    (listaEsperaBody.querySelector('tr') && !listaEsperaBody.querySelector('tr').textContent.includes('Lista de espera vazia'));
+
+                if (!temLinhas) {
+                    listaEsperaCard.style.display = 'none';
+                }
+            }
+        });
+    </script>
+
+    <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/js/bootstrap.bundle.min.js"></script>
 
 </body>
 </html>

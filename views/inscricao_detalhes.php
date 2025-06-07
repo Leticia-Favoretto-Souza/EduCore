@@ -160,9 +160,11 @@ $turmasDisponiveis = $turmaModel->listarTurmasAtivas();
                                             <?php foreach ($turmasDisponiveis as $turma): ?>
                                                 <option value="<?= $turma['id_turma'] ?>">
                                                     <?= htmlspecialchars($turma['codigo_turma']) ?>
+                                                    <?= $turma['vagas_disponiveis'] == 0 ? ' (Lista de espera)' : '' ?>
                                                 </option>
                                             <?php endforeach; ?>
                                         </select>
+
                                     </div>
                                     <div id="vagasInfo" class="form-text text-muted mt-2" style="display: none;">
                                         <i class="bi bi-info-circle"></i>

@@ -8,10 +8,13 @@ class TurmaModel {
     }
 
     public function listarTurmasAtivas() {
-        $sql = "SELECT id_turma, codigo_turma FROM tb_turma WHERE ativo = 1 AND vagas_disponiveis > 0";
+        $sql = "SELECT id_turma, codigo_turma, vagas_disponiveis 
+                FROM tb_turma 
+                WHERE ativo = 1";
         $stmt = $this->pdo->query($sql);
         return $stmt->fetchAll(PDO::FETCH_ASSOC);
     }
+
 
 
     /**

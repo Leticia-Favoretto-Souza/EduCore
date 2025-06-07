@@ -145,12 +145,14 @@ class MatriculaModel {
             $params[':status'] = $filtros['status'];
         }
 
-        $sql .= " ORDER BY m.data_matricula DESC";
+        // 🔁 Aqui está a alteração
+        $sql .= " ORDER BY i.nome ASC";
 
         $stmt = $this->pdo->prepare($sql);
         $stmt->execute($params);
         return $stmt->fetchAll(PDO::FETCH_ASSOC);
     }
+
 
     public function buscarPorId($id)
     {
