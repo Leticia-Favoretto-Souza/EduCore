@@ -83,4 +83,11 @@ class TurmaModel {
         return $stmt->fetchAll(PDO::FETCH_ASSOC);
     }
 
+    public function contarTurmasAtivas() {
+        $sql = "SELECT COUNT(*) AS turmas_ativas FROM tb_turma WHERE ativo = 1";
+        $stmt = $this->pdo->prepare($sql);
+        $stmt->execute();
+        $resultado = $stmt->fetch(PDO::FETCH_ASSOC);
+        return $resultado['turmas_ativas'] ?? 0;
+    }
 }

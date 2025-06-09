@@ -1,20 +1,27 @@
 <?php
 
-require_once __DIR__ . '/../config/conexao.php'; // seu arquivo de conexão
-require_once __DIR__ . '/../models/InscricaoModel.php';
+require_once __DIR__ . '/../database/conexao-banco.php';
+require_once __DIR__ . '/../models/inscricao_model.php';
+require_once __DIR__ . '/../models/turma_model.php'; // Adicionado
 
-if (!isset($_GET['id'])) {
-    die("ID da inscrição não fornecido.");
+$pdo = $conexao ?? null;
+$inscricaoModel = new InscricaoModel($pdo);
+$turmaModel = new TurmaModel($pdo);
+
+$id = $_GET['id'] ?? null;
+if (!$id) {
+    echo "ID não fornecido!";
+    exit;
 }
 
-$id = (int) $_GET['id'];
-
-$model = new InscricaoModel($conexao);
-$inscricao = $model->buscarPorId($id);
-
+$inscricao = $inscricaoModel->buscarPorId($id);
 if (!$inscricao) {
-    die("Inscrição não encontrada.");
+    echo "Inscrição não encontrada!";
+    exit;
 }
 
-// Agora passamos $inscricao para a view
-require_once __DIR__ . '/../views/detalhes_inscricao.php';
+$dataNascimento = new DateTime($inscricao['data_nascimento']);
+$hoje = new DateTime();
+$idade = $hoje->diff($dataNascimento)->y;
+
+$turmasDisponiveis = $turmaModel->listarTurmasAtivas();

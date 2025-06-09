@@ -9,7 +9,7 @@ class CursoController {
         $this->model = new CursoModel($conexao);
     }
 
-    public function listarCursos(array $filtros = []): array {
-        return $this->model->listarTodosComFiltro($filtros);
+    public function listarCursos(): array {
+        return $this->model->listarCursos();
     }
 }

@@ -22,10 +22,10 @@ class AlunoController {
             $this->matriculaModel->atualizarMatricula($dados['matricula']['id'], $dados['matricula']);
             
             // Redireciona para a página de detalhes usando ID da matrícula
-            header("Location: ../views/detalhes_aluno.php?id=" . $dados['matricula']['id']);
+            header("Location: ../views/aluno_detalhes.php?id=" . $dados['matricula']['id']);
         } else {
             // Se não tiver matrícula, redireciona usando ID da inscrição
-            header("Location: ../views/detalhes_aluno.php?id=$idInscricao");
+            header("Location: ../views/aluno_detalhes.php?id=$idInscricao");
         }
         exit;
     }

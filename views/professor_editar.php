@@ -18,7 +18,7 @@ if (!$professor) {
 
 <h2>Editar Professor</h2>
 
-<form method="POST" action="../controllers/atualizar_professor.php">
+<form method="POST" action="../controllers/editar_professor.php">
     <input type="hidden" name="professor[id]" value="<?= $professor['id_professor'] ?>">
 
     <label>Nome:

@@ -1,5 +1,36 @@
 <?php
-session_start();
+    session_start();
+    require_once __DIR__ . '/../controllers/lista_inscricao.php';
+    require_once __DIR__ . '/../database/conexao-banco.php';
+    require_once __DIR__ . '/../models/matricula_model.php';
+    require_once __DIR__ . '/../models/curso_model.php';
+    require_once __DIR__ . '/../models/turma_model.php';
+    require_once __DIR__ . '/../models/professor_model.php';
+
+    $controller = new InscricaoController($conexao);
+    $inscricoes = $controller->listarInscricoes();
+    $espera = $controller->listarEspera();
+
+    function formatarStatus($status) {
+        return match ($status) {
+            'ativa'     => 'bg-success',
+            'pendente'  => 'bg-warning text-dark',
+            'cancelada' => 'bg-danger',
+            default     => 'bg-secondary',
+        };
+    }
+
+    $matriculaModel = new MatriculaModel($conexao);
+    $totalAtivas = $matriculaModel->contarMatriculasAtivas();
+
+    $cursoModel = new CursoModel($conexao);
+    $cursosAtivos = $cursoModel->contarCursosAtivos();
+
+    $turmaModel = new TurmaModel($conexao);
+    $turmasAtivas = $turmaModel->contarTurmasAtivas();
+
+    $professorModel = new ProfessorModel($conexao);
+    $professoresAtivos = $professorModel->contarProfessoresAtivos();
 ?>
 <!DOCTYPE html>
 <html lang="pt-BR">
@@ -50,7 +81,7 @@ session_start();
                             <i class="bi bi-people"></i>
                         </div>
                         <h5 class="card-title">Total de Alunos</h5>
-                        <div class="card-value">1,248</div>
+                        <div class="card-value"><?php echo $totalAtivas ?></div>
                         <div class="small text-success mt-2">
                         </div>
                     </div>
@@ -61,7 +92,7 @@ session_start();
                             <i class="bi bi-book"></i>
                         </div>
                         <h5 class="card-title">Cursos Ativos</h5>
-                        <div class="card-value">24</div>
+                        <div class="card-value"><?php echo $cursosAtivos ?></div>
                         <div class="small text-success mt-2">
                         </div>
                     </div>
@@ -72,7 +103,7 @@ session_start();
                             <i class="bi bi-building"></i>
                         </div>
                         <h5 class="card-title">Turmas Ativas</h5>
-                        <div class="card-value">48</div>
+                        <div class="card-value"><?php echo $turmasAtivas ?></div>
                         <div class="small text-success mt-2">
                         </div>
                     </div>
@@ -83,7 +114,7 @@ session_start();
                             <i class="bi bi-person-badge"></i>
                         </div>
                         <h5 class="card-title">Professores</h5>
-                        <div class="card-value">36</div>
+                        <div class="card-value"><?php echo $professoresAtivos ?></div>
                         <div class="small text-muted mt-2">
                         </div>
                     </div>
@@ -93,23 +124,6 @@ session_start();
             <!-- Main Content Row -->
             <div class="row">
                 <div class="col-lg-8">
-                    <?php
-                    require_once __DIR__ . '/../controllers/lista_inscricao.php';
-                    require_once __DIR__ . '/../database/conexao-banco.php';
-
-                    $controller = new InscricaoController($conexao);
-                    $inscricoes = $controller->listarInscricoes();
-                    $espera = $controller->listarEspera();
-
-                    function formatarStatus($status) {
-                        return match ($status) {
-                            'ativa'     => 'bg-success',
-                            'pendente'  => 'bg-warning text-dark',
-                            'cancelada' => 'bg-danger',
-                            default     => 'bg-secondary',
-                        };
-                    }
-                    ?>
 
                     <div class="dashboard-card mb-4">
                         <h5 class="mb-4">Inscrições Recentes</h5>
@@ -201,13 +215,13 @@ session_start();
                     <div class="dashboard-card mb-4">
                         <h5 class="mb-4">Ações Rápidas</h5>
                         <div class="d-grid gap-2">
-                            <button class="btn btn-outline-primary text-start">
+                            <a href="curso_cadastrar.php" class="btn btn-outline-primary text-start">
                                 <i class="bi bi-book me-2"></i> Cadastrar Curso
-                            </button>
+                            </a>
                             <button class="btn btn-outline-primary text-start">
                                 <i class="bi bi-building me-2"></i> Criar Turma
                             </button>
-                            <a href="Professor_cadastrar.php" class="btn btn-outline-primary text-start">
+                            <a href="professor_cadastrar.php" class="btn btn-outline-primary text-start">
                                 <i class="bi bi-person-badge me-2"></i> Cadastrar Professor
                             </a>
                             <button class="btn btn-outline-primary text-start">

@@ -145,7 +145,6 @@ class MatriculaModel {
             $params[':status'] = $filtros['status'];
         }
 
-        // 🔁 Aqui está a alteração
         $sql .= " ORDER BY i.nome ASC";
 
         $stmt = $this->pdo->prepare($sql);
@@ -173,44 +172,53 @@ class MatriculaModel {
     }
 
 
-public function atualizarMatricula($id, $dados) {
-    // Primeiro, buscar a matrícula atual para saber o id_turma atual
-    $matriculaAtual = $this->buscarPorId($id);
-    if (!$matriculaAtual) {
-        throw new Exception("Matrícula não encontrada");
+    public function atualizarMatricula($id, $dados) {
+        // Primeiro, buscar a matrícula atual para saber o id_turma atual
+        $matriculaAtual = $this->buscarPorId($id);
+        if (!$matriculaAtual) {
+            throw new Exception("Matrícula não encontrada");
+        }
+
+        $sql = "UPDATE tb_matricula SET
+                    id_turma = :id_turma,
+                    status = :status";
+
+        $params = [
+            'id_turma' => $dados['id_turma'],
+            'status' => $dados['status'],
+            'id' => $id
+        ];
+
+        // Se o status for cancelada, adiciona motivo e data_cancelamento
+        if ($dados['status'] === 'cancelada') {
+            $sql .= ", motivo_cancelamento = :motivo_cancelamento, data_cancelamento = NOW()";
+            $params['motivo_cancelamento'] = $dados['motivo_cancelamento'];
+        }
+
+        $sql .= " WHERE id_matricula = :id";
+
+        $stmt = $this->pdo->prepare($sql);
+        $stmt->execute($params);
+
+        // Executa aumento da vaga na turma original somente se for cancelamento
+        if ($dados['status'] === 'cancelada') {
+            // Como a matrícula está cancelada, libera vaga na turma antiga
+            $turmaModel = new TurmaModel($this->pdo);
+            $turmaModel->aumentarVaga($matriculaAtual['id_turma']);
+        }
     }
 
-    $sql = "UPDATE tb_matricula SET
-                id_turma = :id_turma,
-                status = :status";
 
-    $params = [
-        'id_turma' => $dados['id_turma'],
-        'status' => $dados['status'],
-        'id' => $id
-    ];
-
-    // Se o status for cancelada, adiciona motivo e data_cancelamento
-    if ($dados['status'] === 'cancelada') {
-        $sql .= ", motivo_cancelamento = :motivo_cancelamento, data_cancelamento = NOW()";
-        $params['motivo_cancelamento'] = $dados['motivo_cancelamento'];
+    /**
+     * Retorna o total de matrículas com status 'ativa'
+     */
+    public function contarMatriculasAtivas() {
+        $sql = "SELECT COUNT(*) AS total_ativas FROM tb_matricula WHERE status = 'ativa'";
+        $stmt = $this->pdo->prepare($sql);
+        $stmt->execute();
+        $resultado = $stmt->fetch(PDO::FETCH_ASSOC);
+        return $resultado['total_ativas'] ?? 0;
     }
-
-    $sql .= " WHERE id_matricula = :id";
-
-    $stmt = $this->pdo->prepare($sql);
-    $stmt->execute($params);
-
-    // Executa aumento da vaga na turma original somente se for cancelamento
-    if ($dados['status'] === 'cancelada') {
-        // Como a matrícula está cancelada, libera vaga na turma antiga
-        $turmaModel = new TurmaModel($this->pdo);
-        $turmaModel->aumentarVaga($matriculaAtual['id_turma']);
-    }
-}
-
-
-
 
 
 

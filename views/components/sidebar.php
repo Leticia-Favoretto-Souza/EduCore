@@ -19,7 +19,7 @@
                     </a>
                 </li>
                 <li class="nav-item">
-                    <a class="nav-link" href="#">
+                    <a class="nav-link" href="cursos.php">
                         <i class="bi bi-book"></i>
                         Cursos
                     </a>

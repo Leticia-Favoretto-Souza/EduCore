@@ -88,5 +88,13 @@ class ProfessorModel {
         return $stmt->fetch(PDO::FETCH_ASSOC);
     }
 
+    public function contarProfessoresAtivos() {
+        $sql = "SELECT COUNT(*) AS professores_ativos FROM tb_professor WHERE status = 'ativo'";
+        $stmt = $this->pdo->prepare($sql);
+        $stmt->execute();
+        $resultado = $stmt->fetch(PDO::FETCH_ASSOC);
+        return $resultado['professores_ativos'] ?? 0;
+    }
+
 
 }
