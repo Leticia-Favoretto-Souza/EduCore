@@ -44,7 +44,7 @@
 </head>
 <body>
 
-    <?php require_once 'components/sidebar.php'; ?>
+    <?php require_once 'components/sidebar_secretaria.php'; ?>
     
     <!-- Main Content -->
     <div class="main-content">

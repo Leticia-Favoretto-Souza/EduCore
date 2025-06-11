@@ -2,7 +2,7 @@
 
 require_once __DIR__ . '/../database/conexao-banco.php';
 require_once __DIR__ . '/../models/inscricao_model.php';
-require_once __DIR__ . '/../models/turma_model.php'; // Adicionado
+require_once __DIR__ . '/../models/turma_model.php'; 
 
 $pdo = $conexao ?? null;
 $inscricaoModel = new InscricaoModel($pdo);
