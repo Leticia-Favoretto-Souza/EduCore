@@ -13,7 +13,7 @@ require_once __DIR__ . '/../controllers/detalhar_aluno.php';
 </head>
 <body>
 
-<?php require_once 'components/sidebar.php'; ?>
+<?php require_once 'components/sidebar_secretaria.php'; ?>
 
 <div class="main-content">
     <div class="top-bar">

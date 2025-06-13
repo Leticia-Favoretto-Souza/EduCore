@@ -251,31 +251,6 @@ body {
     gap: 10px;
 }
 
-/* Tabelas */
-.table-responsive {
-    border-radius: 8px;
-    overflow: hidden;
-}
-
-.table {
-    margin-bottom: 0;
-}
-
-.table th {
-    background-color: var(--secondary-color);
-    color: white;
-    border: none;
-}
-
-.table td, .table th {
-    padding: 12px 15px;
-    vertical-align: middle;
-}
-
-.table tr:nth-child(even) {
-    background-color: #f8f9fa;
-}
-
 /* Progress Bars */
 .progress {
     height: 8px;
