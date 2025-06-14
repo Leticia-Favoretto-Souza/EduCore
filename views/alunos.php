@@ -31,7 +31,7 @@ $turmas = $controller->getTurmas();
     <link rel="stylesheet" href="../assets/css/dashboard.css">
 </head>
 <body>
-    <?php require_once 'components/sidebar.php'; ?>
+    <?php require_once 'components/sidebar_secretaria.php'; ?>
     
     <div class="main-content">
         <!-- Top Bar -->
