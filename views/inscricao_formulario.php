@@ -7,6 +7,39 @@
     <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/css/bootstrap.min.css" rel="stylesheet" />
     <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap-icons@1.10.0/font/bootstrap-icons.css" />
     <link rel="stylesheet" href="../assets/css/style.css" />
+    <style>
+        /* Estilo para o modal de sucesso */
+        .modal-success {
+            display: none;
+            position: fixed;
+            z-index: 1050;
+            left: 0;
+            top: 0;
+            width: 100%;
+            height: 100%;
+            overflow: hidden;
+            background-color: rgba(0,0,0,0.5);
+        }
+        .modal-success-content {
+            background-color: #fefefe;
+            margin: 15% auto;
+            padding: 30px;
+            border-radius: 10px;
+            width: 80%;
+            max-width: 500px;
+            text-align: center;
+            box-shadow: 0 5px 15px rgba(0,0,0,0.3);
+        }
+        .modal-success-icon {
+            font-size: 60px;
+            color: #28a745;
+            margin-bottom: 20px;
+        }
+        .modal-success-btn {
+            margin-top: 20px;
+            padding: 10px 25px;
+        }
+    </style>
 </head>
 <body>
 
@@ -220,6 +253,20 @@
     </div>
 </div>
 
+<!-- Modal de Sucesso -->
+<div id="modalSuccess" class="modal-success">
+    <div class="modal-success-content">
+        <div class="modal-success-icon">
+            <i class="bi bi-check-circle-fill"></i>
+        </div>
+        <h3>Inscrição realizada com sucesso!</h3>
+        <p>Sua inscrição foi concluída e está sendo processada. Você receberá um e-mail de confirmação em breve.</p>
+        <button id="btnCloseModal" class="btn btn-success modal-success-btn">
+            <i class="bi bi-check-circle me-2"></i> Fechar
+        </button>
+    </div>
+</div>
+
 <?php require_once 'components/rodape.php'; ?>
 
 <!-- Scripts -->
@@ -239,23 +286,6 @@ $(document).ready(function() {
     $('#foto').change(function () {
         const fileName = $(this).val().split('\\').pop();
         $(this).siblings('.file-name').text(fileName || 'Nenhum arquivo selecionado');
-    });
-
-    // Validação ao enviar o formulário
-    $('#formInscricao').on('submit', function(e) {
-        e.preventDefault();
-        
-        // Validar todos os campos
-        const isValid = validarFormulario();
-        
-        if (isValid) {
-            this.submit();
-        } else {
-            // Rolar até o primeiro erro
-            $('html, body').animate({
-                scrollTop: $(".is-invalid").first().offset().top - 100
-            }, 500);
-        }
     });
 
     // Validação em tempo real para campos obrigatórios
@@ -503,6 +533,68 @@ function meu_callback(conteudo) {
         $('#cep').addClass('is-invalid');
     }
 }
+
+// Validação ao enviar o formulário
+$('#formInscricao').on('submit', function(e) {
+    e.preventDefault();
+    
+    // Validar todos os campos
+    const isValid = validarFormulario();
+    
+    if (isValid) {
+        // Criar FormData para enviar os dados do formulário
+        const formData = new FormData(this);
+        
+        // Adicionar campos extras se necessário
+        if ($('#responsavel-section').is(':visible')) {
+            formData.append('nomeResponsavel', $('#nomeResponsavel').val());
+            formData.append('cpfResponsavel', $('#cpfResponsavel').val());
+            formData.append('rgResponsavel', $('#rgResponsavel').val());
+            formData.append('parentesco', $('#parentesco').val());
+            formData.append('telefoneResponsavel', $('#telefoneResponsavel').val());
+            formData.append('emailResponsavel', $('#emailResponsavel').val());
+            
+            // Se for "outro" parentesco, adicionar o valor do campo
+            if ($('#parentesco').val() === 'outro') {
+                formData.append('outroParentesco', $('#outroParentesco').val());
+            }
+        }
+        
+        // Enviar via AJAX
+        $.ajax({
+            url: '../controllers/processa_inscricao.php',
+            type: 'POST',
+            data: formData,
+            processData: false,
+            contentType: false,
+            dataType: 'json',
+            success: function(response) {
+                if (response.success) {
+                    // Mostrar modal de sucesso
+                    $('#modalSuccess').fadeIn();
+                } else {
+                    // Mostrar mensagem de erro
+                    alert('Erro: ' + response.message);
+                }
+            },
+            error: function(xhr, status, error) {
+                // Tratar erros de conexão
+                alert('Erro ao enviar formulário: ' + error);
+            }
+        });
+    } else {
+        // Rolar até o primeiro erro
+        $('html, body').animate({
+            scrollTop: $(".is-invalid").first().offset().top - 100
+        }, 500);
+    }
+});
+
+// Fechar modal e redirecionar
+$('#btnCloseModal').click(function() {
+    $('#modalSuccess').fadeOut();
+    window.location.href = 'dashboard_aluno.php'; // Altere para o caminho correto
+});
 </script>
 
 </body>
