@@ -4,7 +4,7 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <link rel="stylesheet" href="login.css">
+    <link rel="stylesheet" href="../assets/css/login.css" />
     <title>Login</title>
 </head>
 
@@ -13,7 +13,7 @@
         <div class="conteudo">
             <!-- Logo à esquerda -->
             <div class="logo-lado-esquerdo">
-                <img src="img/logoEduCore.png" alt="logo" class="logo-fatec">
+                <img src="../assets/img/logoEduCore.png" alt="logo" class="logo-fatec">
             </div>
 
             <!-- Formulário à direita -->
@@ -21,7 +21,7 @@
                 <h1>Login</h1>
                 <form id="loginForm" method="POST" action="./login.php">
                     <label for="usuario">E-mail</label>
-                    <input type="email" id="usuario" placeholder="nome@fatec.sp.gov.br" required autocomplete="off"
+                    <input type="email" id="usuario" placeholder="nome@email.com" required autocomplete="off"
                         name="email">
                     <label for="senha">Senha</label>
                     <input type="password" id="senha" required name="senha">
