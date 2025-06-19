@@ -32,10 +32,8 @@ Este projeto é o **Projeto Integrador do 3º Semestre** do curso de **Desenvolv
 ## 📚 Disciplinas Envolvidas
 - **Disciplina Chave**: Gestão de Projetos Ágeis.
 - **Disciplinas Satélites**:
-  - Desenvolvimento Web II.
-  - Técnicas de Programação.
-  - Banco de Dados Não Relacional.
-
+  - Desenvolvimento Web III.
+  - Técnicas de Programação II.
 ---
 
 ## 👥 Contribuidores
